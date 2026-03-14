@@ -1,15 +1,35 @@
 import subprocess
+import json
+
 
 def run_slither(contract_path):
 
-    try:
-        result = subprocess.run(
-            ["slither", contract_path],
-            capture_output=True,
-            text=True
-        )
+    command = [
+        "slither",
+        contract_path,
+        "--json",
+        "slither_output.json"
+    ]
 
-        return result.stdout
+    subprocess.run(command, capture_output=True)
 
-    except Exception as e:
-        return str(e)
+    with open("slither_output.json") as f:
+        data = json.load(f)
+
+    findings = []
+
+    for issue in data["results"]["detectors"]:
+
+        description = issue["description"]
+
+        for element in issue["elements"]:
+            if "source_mapping" in element:
+
+                line = element["source_mapping"]["lines"][0]
+
+                findings.append({
+                    "description": description,
+                    "line": line
+                })
+
+    return findings

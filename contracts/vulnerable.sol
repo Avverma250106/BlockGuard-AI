@@ -1,6 +1,7 @@
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
-contract Bank {
+contract Vulnerable {
 
     mapping(address => uint) public balances;
 
@@ -13,7 +14,6 @@ contract Bank {
         require(balances[msg.sender] >= amount);
 
         (bool success,) = msg.sender.call{value: amount}("");
-
         require(success);
 
         balances[msg.sender] -= amount;

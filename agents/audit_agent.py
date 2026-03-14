@@ -1,8 +1,11 @@
 from config.llm import ask_llm
 
-def audit_contract(contract_code, slither_output):
 
-    prompt = f"""
+class AuditAgent:
+
+    def analyze(self, contract_code, slither_output):
+
+        prompt = f"""
 You are a blockchain smart contract security expert.
 
 Analyze the Solidity contract and detect vulnerabilities.
@@ -23,6 +26,6 @@ Static Analysis Result:
 List vulnerabilities with severity and explanation.
 """
 
-    result = ask_llm(prompt)
+        result = ask_llm(prompt)
 
-    return result
+        return result

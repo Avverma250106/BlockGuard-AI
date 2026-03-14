@@ -13,3 +13,6 @@ def ask_llm(prompt):
     response = model.generate_content(prompt)
 
     return response.text
+
+def get_llm():
+    return model
